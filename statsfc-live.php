@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/developers
 Description: StatsFC Live
-Version: 1.0
+Version: 1.0.1
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -211,39 +211,43 @@ class StatsFC_Live extends WP_Widget {
 			<div class="statsfc_live">
 				<table>
 					<tbody>
-						<tr>
-							<td class="statsfc_home<?php echo ($team == $json->home ? ' statsfc_highlight' : ''); ?>">
-								<span class="statsfc_status"><?php echo esc_attr($json->statusshort); ?></span>
-								<?php echo esc_attr($json->homeshort); ?>
-							</td>
-							<td class="statsfc_homeScore"><?php echo esc_attr($json->runningscore[0]); ?></td>
-							<td class="statsfc_vs">-</td>
-							<td class="statsfc_awayScore"><?php echo esc_attr($json->runningscore[1]); ?></td>
-							<td class="statsfc_away<?php echo ($team == $json->away ? ' statsfc_highlight' : ''); ?>"><?php echo esc_attr($json->awayshort); ?></td>
-						</tr>
 						<?php
-						if ($show_incidents && count($json->incidents) > 0) {
-							foreach ($json->incidents as $incident) {
-								$homeClass	= '';
-								$homePlayer	= '';
-								$awayClass	= '';
-								$awayPlayer	= '';
-								$class		= str_replace(' ', '', strtolower($incident->type));
-
-								if ($incident->team_id == $json->home_id) {
-									$homeClass	= ' statsfc_' . esc_attr($class);
-									$homePlayer	= esc_attr($incident->playershort);
-								} elseif ($incident->team_id == $json->away_id) {
-									$awayClass	= ' statsfc_' . esc_attr($class);
-									$awayPlayer	= esc_attr($incident->playershort);
-								}
-								?>
-								<tr class="statsfc_incident">
-									<td class="statsfc_home<?php echo $homeClass; ?>" colspan="2"><?php echo $homePlayer; ?></td>
-									<td class="statsfc_vs"><?php echo esc_attr($incident->minute); ?>'</td>
-									<td class="statsfc_away<?php echo $awayClass; ?>" colspan="2"><?php echo $awayPlayer; ?></td>
-								</tr>
+						foreach ($json as $match) {
+						?>
+							<tr>
+								<td class="statsfc_home<?php echo ($team == $match->home ? ' statsfc_highlight' : ''); ?>">
+									<span class="statsfc_status"><?php echo esc_attr($match->statusshort); ?></span>
+									<?php echo esc_attr($match->homeshort); ?>
+								</td>
+								<td class="statsfc_homeScore"><?php echo esc_attr($match->runningscore[0]); ?></td>
+								<td class="statsfc_vs">-</td>
+								<td class="statsfc_awayScore"><?php echo esc_attr($match->runningscore[1]); ?></td>
+								<td class="statsfc_away<?php echo ($team == $match->away ? ' statsfc_highlight' : ''); ?>"><?php echo esc_attr($match->awayshort); ?></td>
+							</tr>
 							<?php
+							if ($show_incidents && count($match->incidents) > 0) {
+								foreach ($match->incidents as $incident) {
+									$homeClass	= '';
+									$homePlayer	= '';
+									$awayClass	= '';
+									$awayPlayer	= '';
+									$class		= str_replace(' ', '', strtolower($incident->type));
+
+									if ($incident->team_id == $match->home_id) {
+										$homeClass	= ' statsfc_' . esc_attr($class);
+										$homePlayer	= esc_attr($incident->playershort);
+									} elseif ($incident->team_id == $match->away_id) {
+										$awayClass	= ' statsfc_' . esc_attr($class);
+										$awayPlayer	= esc_attr($incident->playershort);
+									}
+									?>
+									<tr class="statsfc_incident">
+										<td class="statsfc_home<?php echo $homeClass; ?>" colspan="2"><?php echo $homePlayer; ?></td>
+										<td class="statsfc_vs"><?php echo esc_attr($incident->minute); ?>'</td>
+										<td class="statsfc_away<?php echo $awayClass; ?>" colspan="2"><?php echo $awayPlayer; ?></td>
+									</tr>
+								<?php
+								}
 							}
 						}
 						?>
