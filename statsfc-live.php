@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/developers
 Description: StatsFC Live
-Version: 1.0.1
+Version: 1.1
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -60,7 +60,9 @@ class StatsFC_Live extends WP_Widget {
 			'api_key'			=> __('', STATSFC_LIVE_ID),
 			'competition'		=> __(current(array_keys(self::$_competitions)), STATSFC_LIVE_ID),
 			'team'				=> __('', STATSFC_LIVE_ID),
-			'show_incidents'	=> __('', STATSFC_LIVE_ID),
+			'goals'				=> __('', STATSFC_LIVE_ID),
+			'reds'				=> __('', STATSFC_LIVE_ID),
+			'yellows'			=> __('', STATSFC_LIVE_ID),
 			'default_css'		=> __('', STATSFC_LIVE_ID)
 		);
 
@@ -69,7 +71,9 @@ class StatsFC_Live extends WP_Widget {
 		$api_key		= strip_tags($instance['api_key']);
 		$competition	= strip_tags($instance['competition']);
 		$team			= strip_tags($instance['team']);
-		$show_incidents	= strip_tags($instance['show_incidents']);
+		$goals			= strip_tags($instance['goals']);
+		$reds			= strip_tags($instance['reds']);
+		$yellows		= strip_tags($instance['yellows']);
 		$default_css	= strip_tags($instance['default_css']);
 		?>
 		<p>
@@ -131,8 +135,20 @@ class StatsFC_Live extends WP_Widget {
 		</p>
 		<p>
 			<label>
-				<?php _e('Show incidents?', STATSFC_LIVE_ID); ?>
-				<input type="checkbox" name="<?php echo $this->get_field_name('show_incidents'); ?>"<?php echo ($show_incidents == 'on' ? ' checked' : ''); ?>>
+				<?php _e('Show goals?', STATSFC_LIVE_ID); ?>
+				<input type="checkbox" name="<?php echo $this->get_field_name('goals'); ?>"<?php echo ($goals == 'on' ? ' checked' : ''); ?>>
+			</label>
+		</p>
+		<p>
+			<label>
+				<?php _e('Show red cards?', STATSFC_LIVE_ID); ?>
+				<input type="checkbox" name="<?php echo $this->get_field_name('reds'); ?>"<?php echo ($reds == 'on' ? ' checked' : ''); ?>>
+			</label>
+		</p>
+		<p>
+			<label>
+				<?php _e('Show yellow cards?', STATSFC_LIVE_ID); ?>
+				<input type="checkbox" name="<?php echo $this->get_field_name('yellows'); ?>"<?php echo ($yellows == 'on' ? ' checked' : ''); ?>>
 			</label>
 		</p>
 		<p>
@@ -160,7 +176,9 @@ class StatsFC_Live extends WP_Widget {
 		$instance['api_key']		= strip_tags($new_instance['api_key']);
 		$instance['competition']	= strip_tags($new_instance['competition']);
 		$instance['team']			= strip_tags($new_instance['team']);
-		$instance['show_incidents']	= strip_tags($new_instance['show_incidents']);
+		$instance['goals']			= strip_tags($new_instance['goals']);
+		$instance['reds']			= strip_tags($new_instance['reds']);
+		$instance['yellows']		= strip_tags($new_instance['yellows']);
 		$instance['default_css']	= strip_tags($new_instance['default_css']);
 
 		return $instance;
@@ -181,7 +199,9 @@ class StatsFC_Live extends WP_Widget {
 		$api_key		= $instance['api_key'];
 		$competition	= $instance['competition'];
 		$team			= $instance['team'];
-		$show_incidents	= $instance['show_incidents'];
+		$goals			= $instance['goals'];
+		$reds			= $instance['reds'];
+		$yellows		= $instance['yellows'];
 		$default_css	= $instance['default_css'];
 
 		echo $before_widget;
@@ -225,8 +245,20 @@ class StatsFC_Live extends WP_Widget {
 								<td class="statsfc_away<?php echo ($team == $match->away ? ' statsfc_highlight' : ''); ?>"><?php echo esc_attr($match->awayshort); ?></td>
 							</tr>
 							<?php
-							if ($show_incidents && count($match->incidents) > 0) {
+							if (($goals || $reds || $yellows) && count($match->incidents) > 0) {
 								foreach ($match->incidents as $incident) {
+									if (! $goals && ($incident->type == 'Goal' || $incident->type == 'Own Goal')) {
+										continue;
+									}
+
+									if (! $reds && ($incident->type == 'Red' || $incident->type == '2nd Yellow')) {
+										continue;
+									}
+
+									if (! $yellows && $incident->type == 'Yellow') {
+										continue;
+									}
+
 									$homeClass	= '';
 									$homePlayer	= '';
 									$awayClass	= '';
