@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.1.1
+Version: 1.2
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -35,7 +35,8 @@ class StatsFC_Live extends WP_Widget {
 	private static $_competitions = array(
 		'premier-league'	=> 'Premier League',
 		'fa-cup'			=> 'FA Cup',
-		'league-cup'		=> 'League Cup'
+		'league-cup'		=> 'League Cup',
+		'community-shield'	=> 'Community Shield'
 	);
 
 	/**
