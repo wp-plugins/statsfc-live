@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.2
+Version: 1.2.1
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -105,9 +105,9 @@ class StatsFC_Live extends WP_Widget {
 			<label>
 				<?php _e('Team', STATSFC_LIVE_ID); ?>:
 				<?php
-				$data = file_get_contents('https://api.statsfc.com/premier-league/teams.json?key=' . (! empty($api_key) ? $api_key : 'free'));
-
 				try {
+					$data = $this->_fetchData('https://api.statsfc.com/premier-league/teams.json?key=' . (! empty($api_key) ? $api_key : 'free'));
+
 					if (empty($data)) {
 						throw new Exception('There was an error connecting to the StatsFC API');
 					}
@@ -208,9 +208,9 @@ class StatsFC_Live extends WP_Widget {
 		echo $before_widget;
 		echo $before_title . $title . $after_title;
 
-		$data = file_get_contents('https://api.statsfc.com/' . esc_attr($competition) . '/live.json?key=' . $api_key . (! empty($team) ? '&team=' . esc_attr($team) : ''));
-
 		try {
+			$data = $this->_fetchData('https://api.statsfc.com/' . esc_attr($competition) . '/live.json?key=' . $api_key . (! empty($team) ? '&team=' . esc_attr($team) : ''));
+
 			if (empty($data)) {
 				throw new Exception('There was an error connecting to the StatsFC API');
 			}
@@ -296,8 +296,29 @@ class StatsFC_Live extends WP_Widget {
 
 		echo $after_widget;
 	}
+
+	private function _fetchData($url) {
+		if (function_exists('curl_exec')) {
+			$ch = curl_init();
+
+			curl_setopt_array($ch, array(
+				CURLOPT_AUTOREFERER		=> true,
+				CURLOPT_FOLLOWLOCATION	=> true,
+				CURLOPT_HEADER			=> false,
+				CURLOPT_RETURNTRANSFER	=> true,
+				CURLOPT_TIMEOUT			=> 5,
+				CURLOPT_URL				=> $url
+			));
+
+			$data = curl_exec($ch);
+			curl_close($ch);
+
+			return $data;
+		}
+
+		return file_get_contents($url);
+	}
 }
 
 // register StatsFC widget
 add_action('widgets_init', create_function('', 'register_widget("' . STATSFC_LIVE_ID . '");'));
-?>
