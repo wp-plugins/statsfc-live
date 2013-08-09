@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.2.1
+Version: 1.2.2
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -303,7 +303,6 @@ class StatsFC_Live extends WP_Widget {
 
 			curl_setopt_array($ch, array(
 				CURLOPT_AUTOREFERER		=> true,
-				CURLOPT_FOLLOWLOCATION	=> true,
 				CURLOPT_HEADER			=> false,
 				CURLOPT_RETURNTRANSFER	=> true,
 				CURLOPT_TIMEOUT			=> 5,
