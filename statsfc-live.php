@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.2.4
+Version: 1.3
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -61,6 +61,7 @@ class StatsFC_Live extends WP_Widget {
 			'api_key'			=> __('', STATSFC_LIVE_ID),
 			'competition'		=> __(current(array_keys(self::$_competitions)), STATSFC_LIVE_ID),
 			'team'				=> __('', STATSFC_LIVE_ID),
+			'upcoming'			=> __('', STATSFC_LIVE_ID),
 			'goals'				=> __('', STATSFC_LIVE_ID),
 			'reds'				=> __('', STATSFC_LIVE_ID),
 			'yellows'			=> __('', STATSFC_LIVE_ID),
@@ -72,6 +73,7 @@ class StatsFC_Live extends WP_Widget {
 		$api_key		= strip_tags($instance['api_key']);
 		$competition	= strip_tags($instance['competition']);
 		$team			= strip_tags($instance['team']);
+		$upcoming		= strip_tags($instance['upcoming']);
 		$goals			= strip_tags($instance['goals']);
 		$reds			= strip_tags($instance['reds']);
 		$yellows		= strip_tags($instance['yellows']);
@@ -136,6 +138,12 @@ class StatsFC_Live extends WP_Widget {
 		</p>
 		<p>
 			<label>
+				<?php _e('Show upcoming matches?', STATSFC_LIVE_ID); ?>
+				<input type="checkbox" name="<?php echo $this->get_field_name('upcoming'); ?>"<?php echo ($upcoming == 'on' ? ' checked' : ''); ?>>
+			</label>
+		</p>
+		<p>
+			<label>
 				<?php _e('Show goals?', STATSFC_LIVE_ID); ?>
 				<input type="checkbox" name="<?php echo $this->get_field_name('goals'); ?>"<?php echo ($goals == 'on' ? ' checked' : ''); ?>>
 			</label>
@@ -177,6 +185,7 @@ class StatsFC_Live extends WP_Widget {
 		$instance['api_key']		= strip_tags($new_instance['api_key']);
 		$instance['competition']	= strip_tags($new_instance['competition']);
 		$instance['team']			= strip_tags($new_instance['team']);
+		$instance['upcoming']		= strip_tags($new_instance['upcoming']);
 		$instance['goals']			= strip_tags($new_instance['goals']);
 		$instance['reds']			= strip_tags($new_instance['reds']);
 		$instance['yellows']		= strip_tags($new_instance['yellows']);
@@ -200,6 +209,7 @@ class StatsFC_Live extends WP_Widget {
 		$api_key		= $instance['api_key'];
 		$competition	= $instance['competition'];
 		$team			= $instance['team'];
+		$upcoming		= $instance['upcoming'];
 		$goals			= $instance['goals'];
 		$reds			= $instance['reds'];
 		$yellows		= $instance['yellows'];
@@ -209,7 +219,21 @@ class StatsFC_Live extends WP_Widget {
 		echo $before_title . $title . $after_title;
 
 		try {
-			$data = $this->_fetchData('https://api.statsfc.com/' . esc_attr($competition) . '/live.json?key=' . $api_key . (! empty($team) ? '&team=' . esc_attr($team) : ''));
+			$url = 'https://api.statsfc.com/live.json?key=' . $api_key;
+
+			if (! empty($competition)) {
+				$url .= '&competition=' . esc_attr($competition);
+			}
+
+			if (! empty($team)) {
+				$url .= '&team=' . esc_attr($team);
+			}
+
+			if ($upcoming) {
+				$url .= '&upcoming=true';
+			}
+
+			$data = $this->_fetchData($url);
 
 			if (empty($data)) {
 				throw new Exception('There was an error connecting to the StatsFC API');
@@ -246,7 +270,7 @@ class StatsFC_Live extends WP_Widget {
 								<td class="statsfc_away<?php echo ($team == $match->away ? ' statsfc_highlight' : ''); ?>"><?php echo esc_attr($match->awayshort); ?></td>
 							</tr>
 							<?php
-							if (($goals || $reds || $yellows) && count($match->incidents) > 0) {
+							if (($goals || $reds || $yellows) && isset($match->incidents) && count($match->incidents) > 0) {
 								foreach ($match->incidents as $incident) {
 									if (! $goals && ($incident->type == 'Goal' || $incident->type == 'Own Goal')) {
 										continue;
