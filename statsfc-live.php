@@ -248,10 +248,7 @@ class StatsFC_Live extends WP_Widget {
 				throw new Exception('There are no live matches at the moment');
 			}
 
-			if ($default_css) {
-				wp_register_style(STATSFC_LIVE_ID . '-css', plugins_url('all.css', __FILE__));
-				wp_enqueue_style(STATSFC_LIVE_ID . '-css');
-			}
+			$this->_loadExternals($default_css);
 			?>
 			<div class="statsfc_live">
 				<table>
@@ -259,7 +256,7 @@ class StatsFC_Live extends WP_Widget {
 						<?php
 						foreach ($json as $match) {
 						?>
-							<tr>
+							<tr id="statsfc_<?php echo $match->id; ?>">
 								<td class="statsfc_home<?php echo ($team == $match->home ? ' statsfc_highlight' : ''); ?>">
 									<span class="statsfc_status"><?php echo esc_attr($match->statusshort); ?></span>
 									<?php echo esc_attr($match->homeshort); ?>
@@ -352,6 +349,16 @@ class StatsFC_Live extends WP_Widget {
 
 	private function _fopenRequest($url) {
 		return file_get_contents($url);
+	}
+
+	private function _loadExternals($default_css = true) {
+		if ($default_css) {
+			wp_register_style(STATSFC_LIVE_ID . '-css', plugins_url('all.css', __FILE__));
+			wp_enqueue_style(STATSFC_LIVE_ID . '-css');
+		}
+
+		wp_register_script(STATSFC_LIVE_ID . '-js', plugins_url('script.js', __FILE__), array('jquery'));
+		wp_enqueue_script(STATSFC_LIVE_ID . '-js');
 	}
 }
 
