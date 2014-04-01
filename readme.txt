@@ -4,7 +4,7 @@ Donate link:
 Tags: widget, football, soccer, live, premier league, fa cup, league cup
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 1.4.1
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,49 +41,29 @@ If you want to place the widget into a page rather than a sidebar:
 
 == Changelog ==
 
-**1.0.1**:
+**1.0.1**: Fixed bug: live scores now showing.
 
-- Fixed bug: live scores now showing.
+**1.1**: Separate control over whether to show goals, red cards and yellow cards.
 
-**1.1**:
+**1.1.1**: Fixed a bug when selecting a specific team.
 
-- Separate control over whether to show goals, red cards and yellow cards.
+**1.2**: Added Community Shield live scores.
 
-**1.1.1**:
+**1.2.1**: Use cURL to fetch API data if possible.
 
-- Fixed a bug when selecting a specific team.
+**1.2.2**: Fixed possible cURL bug.
 
-**1.2**:
+**1.2.3**: Added fopen fallback if cURL request fails.
 
-- Added Community Shield live scores.
+**1.2.4**: Added missing "Missed penalty" icon.
 
-**1.2.1**:
+**1.3**: Added an option to show upcoming fixtures, starting within the next hour.
 
-- Use cURL to fetch API data if possible.
+**1.4**: Live match scores and status are automatically updated.
 
-**1.2.2**:
+**1.4.1**: Tweaked error message.
 
-- Fixed possible cURL bug.
-
-**1.2.3**:
-
-- Added fopen fallback if cURL request fails.
-
-**1.2.4**:
-
-- Added missing "Missed penalty" icon.
-
-**1.3**:
-
-- Added an option to show upcoming fixtures, starting within the next hour.
-
-**1.4**:
-
-- Live match scores and status are automatically updated.
-
-**1.4.1**:
-
-- Tweaked error message.
+**1.5**: Updated to use the new API.
 
 == Upgrade notice ==
 

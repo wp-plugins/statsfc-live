@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.4.1
+Version: 1.5
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -32,13 +32,6 @@ define('STATSFC_LIVE_NAME',	'StatsFC Live');
  * Adds StatsFC widget.
  */
 class StatsFC_Live extends WP_Widget {
-	private static $_competitions = array(
-		'premier-league'	=> 'Premier League',
-		'fa-cup'			=> 'FA Cup',
-		'league-cup'		=> 'League Cup',
-		'community-shield'	=> 'Community Shield'
-	);
-
 	/**
 	 * Register widget with WordPress.
 	 */
@@ -59,12 +52,8 @@ class StatsFC_Live extends WP_Widget {
 		$defaults = array(
 			'title'				=> __('Live Scores', STATSFC_LIVE_ID),
 			'api_key'			=> __('', STATSFC_LIVE_ID),
-			'competition'		=> __(current(array_keys(self::$_competitions)), STATSFC_LIVE_ID),
+			'competition'		=> __('', STATSFC_LIVE_ID),
 			'team'				=> __('', STATSFC_LIVE_ID),
-			'upcoming'			=> __('', STATSFC_LIVE_ID),
-			'goals'				=> __('', STATSFC_LIVE_ID),
-			'reds'				=> __('', STATSFC_LIVE_ID),
-			'yellows'			=> __('', STATSFC_LIVE_ID),
 			'default_css'		=> __('', STATSFC_LIVE_ID)
 		);
 
@@ -73,10 +62,6 @@ class StatsFC_Live extends WP_Widget {
 		$api_key		= strip_tags($instance['api_key']);
 		$competition	= strip_tags($instance['competition']);
 		$team			= strip_tags($instance['team']);
-		$upcoming		= strip_tags($instance['upcoming']);
-		$goals			= strip_tags($instance['goals']);
-		$reds			= strip_tags($instance['reds']);
-		$yellows		= strip_tags($instance['yellows']);
 		$default_css	= strip_tags($instance['default_css']);
 		?>
 		<p>
@@ -94,43 +79,32 @@ class StatsFC_Live extends WP_Widget {
 		<p>
 			<label>
 				<?php _e('Competition', STATSFC_LIVE_ID); ?>:
-				<select name="<?php echo $this->get_field_name('competition'); ?>">
-					<?php
-					foreach (self::$_competitions as $id => $name) {
-						echo '<option value="' . esc_attr($id) . '"' . ($id == $competition ? ' selected' : '') . '>' . esc_attr($name) . '</option>' . PHP_EOL;
-					}
-					?>
-				</select>
-			</label>
-		</p>
-		<p>
-			<label>
-				<?php _e('Team', STATSFC_LIVE_ID); ?>:
 				<?php
 				try {
-					$data = $this->_fetchData('https://api.statsfc.com/premier-league/teams.json?key=' . (! empty($api_key) ? $api_key : 'free'));
+					$data = $this->_fetchData('https://api.statsfc.com/crowdscores/competitions.php');
 
 					if (empty($data)) {
-						throw new Exception('There was an error connecting to the StatsFC API');
+						throw new Exception;
 					}
 
 					$json = json_decode($data);
+
 					if (isset($json->error)) {
-						throw new Exception($json->error);
+						throw new Exception;
 					}
 					?>
-					<select class="widefat" name="<?php echo $this->get_field_name('team'); ?>">
+					<select class="widefat" name="<?php echo $this->get_field_name('competition'); ?>">
 						<option></option>
 						<?php
-						foreach ($json as $row) {
-							echo '<option value="' . esc_attr($row->path) . '"' . ($row->path == $team ? ' selected' : '') . '>' . esc_attr($row->name) . '</option>' . PHP_EOL;
+						foreach ($json as $comp) {
+							echo '<option value="' . esc_attr($comp->key) . '"' . ($comp->key == $competition ? ' selected' : '') . '>' . esc_attr($comp->name) . '</option>' . PHP_EOL;
 						}
 						?>
 					</select>
 				<?php
 				} catch (Exception $e) {
 				?>
-					<input class="widefat" name="<?php echo $this->get_field_name('team'); ?>" type="text" value="<?php echo esc_attr($team); ?>">
+					<input class="widefat" name="<?php echo $this->get_field_name('competition'); ?>" type="text" value="<?php echo esc_attr($competition); ?>">
 				<?php
 				}
 				?>
@@ -138,26 +112,8 @@ class StatsFC_Live extends WP_Widget {
 		</p>
 		<p>
 			<label>
-				<?php _e('Show upcoming matches?', STATSFC_LIVE_ID); ?>
-				<input type="checkbox" name="<?php echo $this->get_field_name('upcoming'); ?>"<?php echo ($upcoming == 'on' ? ' checked' : ''); ?>>
-			</label>
-		</p>
-		<p>
-			<label>
-				<?php _e('Show goals?', STATSFC_LIVE_ID); ?>
-				<input type="checkbox" name="<?php echo $this->get_field_name('goals'); ?>"<?php echo ($goals == 'on' ? ' checked' : ''); ?>>
-			</label>
-		</p>
-		<p>
-			<label>
-				<?php _e('Show red cards?', STATSFC_LIVE_ID); ?>
-				<input type="checkbox" name="<?php echo $this->get_field_name('reds'); ?>"<?php echo ($reds == 'on' ? ' checked' : ''); ?>>
-			</label>
-		</p>
-		<p>
-			<label>
-				<?php _e('Show yellow cards?', STATSFC_LIVE_ID); ?>
-				<input type="checkbox" name="<?php echo $this->get_field_name('yellows'); ?>"<?php echo ($yellows == 'on' ? ' checked' : ''); ?>>
+				<?php _e('Team', STATSFC_LIVE_ID); ?>:
+				<input class="widefat" name="<?php echo $this->get_field_name('team'); ?>" type="text" value="<?php echo esc_attr($team); ?>" placeholder="e.g., Liverpool, Manchester City">
 			</label>
 		</p>
 		<p>
@@ -185,10 +141,6 @@ class StatsFC_Live extends WP_Widget {
 		$instance['api_key']		= strip_tags($new_instance['api_key']);
 		$instance['competition']	= strip_tags($new_instance['competition']);
 		$instance['team']			= strip_tags($new_instance['team']);
-		$instance['upcoming']		= strip_tags($new_instance['upcoming']);
-		$instance['goals']			= strip_tags($new_instance['goals']);
-		$instance['reds']			= strip_tags($new_instance['reds']);
-		$instance['yellows']		= strip_tags($new_instance['yellows']);
 		$instance['default_css']	= strip_tags($new_instance['default_css']);
 
 		return $instance;
@@ -209,110 +161,76 @@ class StatsFC_Live extends WP_Widget {
 		$api_key		= $instance['api_key'];
 		$competition	= $instance['competition'];
 		$team			= $instance['team'];
-		$upcoming		= $instance['upcoming'];
-		$goals			= $instance['goals'];
-		$reds			= $instance['reds'];
-		$yellows		= $instance['yellows'];
 		$default_css	= $instance['default_css'];
 
 		echo $before_widget;
 		echo $before_title . $title . $after_title;
 
 		try {
-			$url = 'https://api.statsfc.com/live.json?key=' . $api_key;
-
-			if (! empty($competition)) {
-				$url .= '&competition=' . esc_attr($competition);
-			}
-
-			if (! empty($team)) {
-				$url .= '&team=' . esc_attr($team);
-			}
-
-			if ($upcoming) {
-				$url .= '&upcoming=true';
-			}
-
-			$data = $this->_fetchData($url);
+			$data = $this->_fetchData('https://api.statsfc.com/crowdscores/live.php?key=' . urlencode($api_key) . '&competition=' . urlencode($competition) . '&team=' . urlencode($team));
 
 			if (empty($data)) {
 				throw new Exception('There was an error connecting to the StatsFC API');
 			}
 
 			$json = json_decode($data);
+
 			if (isset($json->error)) {
 				throw new Exception($json->error);
 			}
 
-			if (count($json) == 0) {
-				throw new Exception('There are no live matches at the moment');
+			$matches	= $json->matches;
+			$customer	= $json->customer;
+
+			if ($default_css) {
+				wp_register_style(STATSFC_LIVE_ID . '-css', plugins_url('all.css', __FILE__));
+				wp_enqueue_style(STATSFC_LIVE_ID . '-css');
 			}
 
-			$this->_loadExternals($default_css);
+			wp_register_script(STATSFC_LIVE_ID . '-js', plugins_url('script.js', __FILE__), array('jquery'));
+			wp_enqueue_script(STATSFC_LIVE_ID . '-js');
 			?>
 			<div class="statsfc_live">
-				<table>
-					<tbody>
-						<?php
-						foreach ($json as $match) {
-						?>
-							<tr id="statsfc_<?php echo $match->id; ?>">
-								<td class="statsfc_home<?php echo ($team == $match->home ? ' statsfc_highlight' : ''); ?>">
-									<span class="statsfc_status"><?php echo esc_attr($match->statusshort); ?></span>
-									<?php echo esc_attr($match->homeshort); ?>
-								</td>
-								<td class="statsfc_homeScore"><?php echo esc_attr($match->runningscore[0]); ?></td>
-								<td class="statsfc_vs">-</td>
-								<td class="statsfc_awayScore"><?php echo esc_attr($match->runningscore[1]); ?></td>
-								<td class="statsfc_away<?php echo ($team == $match->away ? ' statsfc_highlight' : ''); ?>"><?php echo esc_attr($match->awayshort); ?></td>
-							</tr>
+				<div>
+					<table>
+						<tbody>
 							<?php
-							if (($goals || $reds || $yellows) && isset($match->incidents) && count($match->incidents) > 0) {
-								foreach ($match->incidents as $incident) {
-									if (! $goals && ($incident->type == 'Goal' || $incident->type == 'Own Goal')) {
-										continue;
-									}
+							foreach ($matches as $match) {
+							?>
+								<tr id="statsfc_<?php echo $match->id; ?>">
+									<td class="statsfc_team statsfc_home statsfc_badge"<?php echo ($default_css ? ' style="background-image: url(//api.statsfc.com/kit/' . esc_attr($match->homepath) . '.png);"' : ''); ?>>
+										<span class="statsfc_status"><?php echo esc_attr($match->status); ?></span>
+										<?php echo esc_attr($match->home); ?>
+									</td>
+									<td class="statsfc_homeScore"><?php echo esc_attr($match->score[0]); ?></td>
+									<td class="statsfc_vs">-</td>
+									<td class="statsfc_awayScore"><?php echo esc_attr($match->score[1]); ?></td>
+									<td class="statsfc_team statsfc_away statsfc_badge"<?php echo ($default_css ? ' style="background-image: url(//api.statsfc.com/kit/' . esc_attr($match->awaypath) . '.png);"' : ''); ?>>
+										<?php
+										echo esc_attr($match->away);
 
-									if (! $reds && ($incident->type == 'Red' || $incident->type == '2nd Yellow')) {
-										continue;
-									}
-
-									if (! $yellows && $incident->type == 'Yellow') {
-										continue;
-									}
-
-									$homeClass	= '';
-									$homePlayer	= '';
-									$awayClass	= '';
-									$awayPlayer	= '';
-									$class		= str_replace(' ', '', strtolower($incident->type));
-
-									if ($incident->team_id == $match->home_id) {
-										$homeClass	= ' statsfc_' . esc_attr($class);
-										$homePlayer	= esc_attr($incident->playershort);
-									} elseif ($incident->team_id == $match->away_id) {
-										$awayClass	= ' statsfc_' . esc_attr($class);
-										$awayPlayer	= esc_attr($incident->playershort);
-									}
-									?>
-									<tr class="statsfc_incident">
-										<td class="statsfc_home<?php echo $homeClass; ?>" colspan="2"><?php echo $homePlayer; ?></td>
-										<td class="statsfc_vs"><?php echo esc_attr($incident->minute); ?>'</td>
-										<td class="statsfc_away<?php echo $awayClass; ?>" colspan="2"><?php echo $awayPlayer; ?></td>
-									</tr>
-								<?php
-								}
+										if (strlen($competition) == 0) {
+										?>
+											<span class="statsfc_competition">
+												<abbr title="<?php echo esc_attr($match->competition); ?>"><?php echo esc_attr($match->competitionkey); ?></abbr>
+											</span>
+										<?php
+										}
+										?>
+									</td>
+								</tr>
+							<?php
 							}
-						}
-						?>
-					</tbody>
-				</table>
+							?>
+						</tbody>
+					</table>
+				</div>
 
-				<p class="statsfc_footer"><small>Powered by StatsFC.com</small></p>
+				<p class="statsfc_footer">Powered by StatsFC.com. Fan data via CrowdScores.com</p>
 			</div>
 		<?php
 		} catch (Exception $e) {
-			echo '<p style="text-align: center;"><img src="//statsfc.com/i/icon.png" width="64" height="64" alt="Football widgets and API"><br><a href="https://statsfc.com" title="Football widgets and API" target="_blank">StatsFC.com</a> – ' . esc_attr($e->getMessage()) .'</p>' . PHP_EOL;
+			echo '<p style="text-align: center;">StatsFC.com – ' . esc_attr($e->getMessage()) .'</p>' . PHP_EOL;
 		}
 
 		echo $after_widget;
@@ -349,16 +267,6 @@ class StatsFC_Live extends WP_Widget {
 
 	private function _fopenRequest($url) {
 		return file_get_contents($url);
-	}
-
-	private function _loadExternals($default_css = true) {
-		if ($default_css) {
-			wp_register_style(STATSFC_LIVE_ID . '-css', plugins_url('all.css', __FILE__));
-			wp_enqueue_style(STATSFC_LIVE_ID . '-css');
-		}
-
-		wp_register_script(STATSFC_LIVE_ID . '-js', plugins_url('script.js', __FILE__), array('jquery'));
-		wp_enqueue_script(STATSFC_LIVE_ID . '-js');
 	}
 }
 

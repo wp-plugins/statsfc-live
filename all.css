@@ -1,22 +1,18 @@
-.statsfc_live table {							display: table; width: 100%; border-collapse: collapse; border: 1px solid silver; margin-bottom: 0; }
+.statsfc_live table {					display: table; width: 100%; border-collapse: collapse; border: 1px solid silver; }
 .statsfc_live th,
-.statsfc_live td {								text-align: left; padding: 2px 5px; border-bottom: 1px solid silver; }
-.statsfc_live .statsfc_home,
-.statsfc_live .statsfc_away {					width: 50%; }
-.statsfc_live .statsfc_home {					text-align: right; }
+.statsfc_live td {						text-align: left; padding: 2px 5px; border-top: 1px solid silver; }
+.statsfc_live .statsfc_incident td {	font-size: small; border: none; color: #666; }
+.statsfc_live .statsfc_team {			width: 50%; }
+.statsfc_live .statsfc_home {			text-align: right; }
 .statsfc_live .statsfc_homeScore,
 .statsfc_live .statsfc_vs,
-.statsfc_live .statsfc_awayScore {				text-align: center; }
-.statsfc_live .statsfc_incident {				font-size: small; }
-.statsfc_live .statsfc_incident .statsfc_home {	line-height: 16px; background-size: 24px 16px; background-repeat: no-repeat; background-position: center right; padding-right: 25px; }
-.statsfc_live .statsfc_incident .statsfc_away {	line-height: 16px; background-size: 24px 16px; background-repeat: no-repeat; background-position: center left; padding-left: 25px; }
-.statsfc_live .statsfc_highlight {				font-weight: bold; }
-.statsfc_live .statsfc_status {					font-weight: normal; float: left; }
-.statsfc_live .statsfc_footer {					display: block !important; text-align: right; margin-top: 0; padding: 2px 5px; }
+.statsfc_live .statsfc_awayScore {		text-align: center; }
+.statsfc_live .statsfc_highlight {		font-weight: bold; }
+.statsfc_live span {					color: silver; }
+.statsfc_live .statsfc_status {			font-weight: normal; float: left; }
+.statsfc_live .statsfc_competition {	font-weight: normal; float: right; }
+.statsfc_live .statsfc_footer {			display: block !important; text-align: right; margin-top: 0; padding: 2px 5px; }
 
-.statsfc_live .statsfc_goal,
-.statsfc_live .statsfc_owngoal {	font-weight: bold; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAQAAAD+3TOXAAACYklEQVRIx+2WS0hUcRTGj0LjFMGEEkkLo1o5PpKCJDOcsEBoo0Rboc2g7VxECwehh4sSi5jBQiURcZwcChI3iRVSUWSbIiJM8xFkGTnjg6CH59fijtP/LufOtAj8/pt7zuL74Dy+c0U28P8gV3zSKGEJS6P4JDez5MXHg+UzwvrbzfmZY0Epzgx5TmGgI7ZIFWK8Nl5zM1YSkJx06T01g6/4zpCeo5ptCEIB13jLqI7wiNpB8aRD766JfmSB2/oJgEnaOKFzWJhnWO9TFxW3Y/6y5gliDOoyfxHSteT3b9rwIgGH9C5vU7yPdo1jokO/GlEvgixJkSOB7NAWhJPY0auTRjRqNf2Gs7mfE4Ry1mwCXTpsRO/YhCBzTvbCJ2rNzKpBeE/zyeOKWrkVunQngqj4UhfwWxPvIswUPwC4ru7EHhziIY+5pE94Rh4uPP7UBQYsqnpGtFuvarc2qLlqmwnpEgAR6inrT5l/R3gPwgEWEwM5xWHbLhewkijbMgOUpi5Q5B+iQseN+kdsAnXJ/Dy3KHFQIt+YjmnMEIiz1+ZG63hDu2510OTcy7MfGFdzRFsMgafJ7APOzjqy78rQZ4bUVOhRP610EKGHYMIyvhCmOuTMK7yd8XHeJ+lfEFRzIyL6iztUcCouXoduVNj8nNN6gZf8ZJ6LNtODdj2CIGQ3p2HXVdHtCC4OUqvTNvpVjlrdSMeuRcQjUaupWQRtAk3r9J60T6YEJCYIbu7yjSUWmCDKLiQmGTiZiaMvwayZSkKE6aOTVs5M78/Y0U/uRb5vX0Npf0l/cYM7478tG/iX+AOoXZD4g41IuAAAAABJRU5ErkJggg==); }
-.statsfc_live .statsfc_missedpen {	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAEDUlEQVR42u2YX0hbVxzHT/6YSqBqhg4HmqIUrEYpCMtimQaVtfNF7IOPigxBhLKCi6WwvYigsjgUF63omDgQcSjoqg+KPohYKuoKonOkTSU1D7YO/8RobebOd7978bYX7419qXd7yAe+GHJPfny/5pzzOycsSpQoHxwLyUmqIT0UdPraKT77vwDGPiGNkD4+fctWXFzssdvtfuHxWaWnp6OhocEvjBHGyup8RvqFZNLa/J8kcMbWvrRam7u6uvYIFBQUSKYVam1txerqKrq7u/cyMzO/22Hsc3qwTwJpgnRJC/MfSeYlHV+9iuMXLzA2Nsbr6+t5UVER4uLi3hpPTU1Fe3s7X19fx/T0NJ+cnMSTBw/wxmAIy+uQJkmGiw6gI/1Eglx7KSnYWlmBhM/ng9vtRklJCQ8EApDz1/g4/jabpc/KVafVFNL9bjYvKQzYbMDLl5DT0dHBCbzl0SPQ16OleSUmk+naN3V1wWdOJ94XwuPx8O3t7XfmL19WfKaesWMqm8W0Qq/Xd5ppCugZw8yVK+eG6O/v58J0wvy8qvm6d4u8m2lEAilAgiCH3Q5UVUUM0dvby+fdblXzr+7fh8FgkAIEtOoTThLkO8xRKKQaImi1oiohAQc6neLZm+ZmMVxycjJk9ZxMA6rlAWJiYjA4OAjf06f4p6JCYVRNz+/cEZoan6dptbCwAIvFAqPRiPj4+GqmAePyABUVFXxqaooL/80f3G7uvXHjXPP3yKiwsIPBICSGhoZQWVmJ7Ozs39hFk5SU9DAtLU00n5ubi93dXUicnJyI38ScxaJqvpGUQv3i8PAQckKhkBgiKyvr4gPYbLbqiYkJOBwOvry8DAWPHyOs3qTgJX116xbOsrW1hb6+Pgi1NVnEc3NzmJ2d5XT2UZiniXzuFNpNTATOdOa1tTW0tbXx2NhYpybbaEtLy+bGxgYWFxf5+8yvqAWhsxM2NyExMzMDl8u1KW7RWpCXl+eh7ioe3oiI5n91ONDS2Ijn169HDEF1xF2ssLDQwzTkWk9PT3BpaQmBkRFV83NlZRwS4TBQVqYYE6IeUEobQXl5eVCoybQkIyPj2z9o4R2ZTApjkzdv8oODA4jIQ9y+rRj7jGRn7HumNa/oMvJarw+fNfSzzcb9fj9UoRAnpaWKEJwxH/1NZRohXQP3Ih3MOjs7OSLgunuXj6gtbK1CgLFE0q6iwzL2WurOdNzG6Ogo39nZwf7+vrhQvV4vhoeHYbVaYaTwTxhbUwmxSjJoEeJrlcuIjeTR6XT+/Px80B1Z3F0GBgaEQxuamppQW1vrp+79ozAWjBlJw7IaR6QvtJxGrgg3KQudMJ05OTk1wtHgVDV0WFP8rCKFUJjXMMSnH6CGkZTLokT5b/gXY+1/KIdBSOQAAAAASUVORK5CYII=); }
-.statsfc_live .statsfc_yellow {		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAMAAABjCgsuAAAAOVBMVEX///+IigSEhQCFhQCJiRSOkA6JiQCHiASIigOOjgyRkgCenwD8/AD+/gDd3QD7+wD//wCcnQDc3QCWHGymAAAACnRSTlMArKysDWwNrr9qAzM5XQAAAFJJREFUeF7t1DsWgCAQQ1FBfpMZ8LP/xdp5pkthh7z+lsk2YymH/S3kxEBpuFxohQDBOFwDQkDVfrq6VgKimgem8Z9ggQX4gPhEb8jXE+A3M2EPkQ8VaWVUrQMAAAAASUVORK5CYII=); }
-.statsfc_live .statsfc_2ndyellow {	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAA/klEQVR42u2YPW7CQBBGPxsoQDgVDR2iyUlIH+UWiBukjeX1FisIQimSQA7gWNyAG4QTICi4BZaHH1PQbITBiOZ70itHmlfOgBByPmHY8Ez/oad0OfJ92H3FVD+5c9XCOmg767DpzoMSpgEQ2dQ7Tb3SCwHvRsvDU7o0G7xDvr7tfo4g5hEyBGScy2xGA7ObRBhT7+6XXywgm43dvw/nsMhqZ5rT1THC1NwuiiZQ5Xg8gaQpRMRu/Az5AUQuMptVQIyiefMR7QOS5P+A35frA3wgYgADGMAABjCAAQxgAAMYcHEAD5p7nJTLk5OSR/3Vb5WOk/+tUnWztwoh5Gy2neKFByQLBr4AAAAASUVORK5CYII=); }
-.statsfc_live .statsfc_red {		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAAp0lEQVR42u2YMQrCQBREB7KtgUBOKR5DMTYBe/EEwSt4EXMSg+sOpLB0s8U278F0mc9/2/0IAMq49P1u7LrDEMJ0kv6Kv3XH3erLD03zvErxlhl33K0qMbbt3ovMKe/MzKuEZ6gW5xAedyl+UmJm3HHXM1SLozR5iWWDwLIKeAYCCCCAAAIIIIAAAgggsFmAg6bGSfn6OSk56ksl0itm/1Zxx10BQBFf9Hf1TiKmxpsAAAAASUVORK5CYII=); }
+.statsfc_live .statsfc_badge {			background-repeat: no-repeat; background-size: 20px 20px; line-height: 25px; }
+.statsfc_live .statsfc_home {			background-position: center right; padding-right: 25px !important; }
+.statsfc_live .statsfc_away {			background-position: center left; padding-left: 25px !important; }

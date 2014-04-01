@@ -1,7 +1,7 @@
 var $j = jQuery;
 
 setInterval(function() {
-	$j.getJSON('https://api.statsfc.com/live-updates.json?callback=?', function(data) {
+	$j.getJSON('https://api.statsfc.com/crowdscores/live-updates.php?callback=?', function(data) {
 		$j.each(data, function(match_id, score) {
 			$j('#statsfc_' + match_id + ' .statsfc_homeScore').text(score[0]);
 			$j('#statsfc_' + match_id + ' .statsfc_awayScore').text(score[1]);
