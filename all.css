@@ -1,6 +1,7 @@
 .statsfc_live table {					display: table; width: 100%; border-collapse: collapse; border: 1px solid silver; }
 .statsfc_live th,
 .statsfc_live td {						text-align: left; padding: 2px 5px; border-top: 1px solid silver; }
+.statsfc_live thead th {				text-transform: uppercase; font-size: small; background-color: silver; }
 .statsfc_live .statsfc_incident td {	font-size: small; border: none; color: #666; }
 .statsfc_live .statsfc_team {			width: 50%; }
 .statsfc_live .statsfc_home {			text-align: right; }
