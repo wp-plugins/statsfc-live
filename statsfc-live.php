@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.5
+Version: 1.5.1
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -226,7 +226,7 @@ class StatsFC_Live extends WP_Widget {
 					</table>
 				</div>
 
-				<p class="statsfc_footer">Powered by StatsFC.com. Fan data via CrowdScores.com</p>
+				<p class="statsfc_footer"><small>Powered by StatsFC.com. Fan data via CrowdScores.com</small></p>
 			</div>
 		<?php
 		} catch (Exception $e) {
