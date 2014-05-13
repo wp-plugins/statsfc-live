@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.5.2
+Version: 1.5.3
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
