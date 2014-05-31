@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.5.3
+Version: 1.6
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -32,6 +32,16 @@ define('STATSFC_LIVE_NAME',	'StatsFC Live');
  * Adds StatsFC widget.
  */
 class StatsFC_Live extends WP_Widget {
+	public $isShortcode = false;
+
+	private static $defaults = array(
+		'title'			=> '',
+		'key'			=> '',
+		'competition'	=> '',
+		'team'			=> '',
+		'default_css'	=> ''
+	);
+
 	/**
 	 * Register widget with WordPress.
 	 */
@@ -49,17 +59,9 @@ class StatsFC_Live extends WP_Widget {
 	 * @todo Option to show match incidents.
 	 */
 	public function form($instance) {
-		$defaults = array(
-			'title'				=> __('Live Scores', STATSFC_LIVE_ID),
-			'api_key'			=> __('', STATSFC_LIVE_ID),
-			'competition'		=> __('', STATSFC_LIVE_ID),
-			'team'				=> __('', STATSFC_LIVE_ID),
-			'default_css'		=> __('', STATSFC_LIVE_ID)
-		);
-
-		$instance		= wp_parse_args((array) $instance, $defaults);
+		$instance		= wp_parse_args((array) $instance, self::$defaults);
 		$title			= strip_tags($instance['title']);
-		$api_key		= strip_tags($instance['api_key']);
+		$key			= strip_tags($instance['key']);
 		$competition	= strip_tags($instance['competition']);
 		$team			= strip_tags($instance['team']);
 		$default_css	= strip_tags($instance['default_css']);
@@ -72,8 +74,8 @@ class StatsFC_Live extends WP_Widget {
 		</p>
 		<p>
 			<label>
-				<?php _e('API key', STATSFC_LIVE_ID); ?>:
-				<input class="widefat" name="<?php echo $this->get_field_name('api_key'); ?>" type="text" value="<?php echo esc_attr($api_key); ?>">
+				<?php _e('Key', STATSFC_LIVE_ID); ?>:
+				<input class="widefat" name="<?php echo $this->get_field_name('key'); ?>" type="text" value="<?php echo esc_attr($key); ?>">
 			</label>
 		</p>
 		<p>
@@ -138,7 +140,7 @@ class StatsFC_Live extends WP_Widget {
 	public function update($new_instance, $old_instance) {
 		$instance					= $old_instance;
 		$instance['title']			= strip_tags($new_instance['title']);
-		$instance['api_key']		= strip_tags($new_instance['api_key']);
+		$instance['key']			= strip_tags($new_instance['key']);
 		$instance['competition']	= strip_tags($new_instance['competition']);
 		$instance['team']			= strip_tags($new_instance['team']);
 		$instance['default_css']	= strip_tags($new_instance['default_css']);
@@ -158,16 +160,16 @@ class StatsFC_Live extends WP_Widget {
 		extract($args);
 
 		$title			= apply_filters('widget_title', $instance['title']);
-		$api_key		= $instance['api_key'];
+		$key			= $instance['key'];
 		$competition	= $instance['competition'];
 		$team			= $instance['team'];
 		$default_css	= $instance['default_css'];
 
-		echo $before_widget;
-		echo $before_title . $title . $after_title;
+		$html  = $before_widget;
+		$html .= $before_title . $title . $after_title;
 
 		try {
-			$data = $this->_fetchData('https://api.statsfc.com/crowdscores/live.php?key=' . urlencode($api_key) . '&competition=' . urlencode($competition) . '&team=' . urlencode($team));
+			$data = $this->_fetchData('https://api.statsfc.com/crowdscores/live.php?key=' . urlencode($key) . '&competition=' . urlencode($competition) . '&team=' . urlencode($team));
 
 			if (empty($data)) {
 				throw new Exception('There was an error connecting to the StatsFC API');
@@ -189,51 +191,69 @@ class StatsFC_Live extends WP_Widget {
 
 			wp_register_script(STATSFC_LIVE_ID . '-js', plugins_url('script.js', __FILE__), array('jquery'));
 			wp_enqueue_script(STATSFC_LIVE_ID . '-js');
-			?>
+
+			$html .= <<< HTML
 			<div class="statsfc_live">
 				<div>
 					<table>
 						<tbody>
-							<?php
-							foreach ($matches as $match) {
-							?>
-								<tr id="statsfc_<?php echo $match->id; ?>">
-									<td class="statsfc_team statsfc_home statsfc_badge"<?php echo ($default_css ? ' style="background-image: url(//api.statsfc.com/kit/' . esc_attr($match->homepath) . '.png);"' : ''); ?>>
-										<span class="statsfc_status"><?php echo esc_attr($match->status); ?></span>
-										<?php echo esc_attr($match->home); ?>
-									</td>
-									<td class="statsfc_homeScore"><?php echo esc_attr($match->score[0]); ?></td>
-									<td class="statsfc_vs">-</td>
-									<td class="statsfc_awayScore"><?php echo esc_attr($match->score[1]); ?></td>
-									<td class="statsfc_team statsfc_away statsfc_badge"<?php echo ($default_css ? ' style="background-image: url(//api.statsfc.com/kit/' . esc_attr($match->awaypath) . '.png);"' : ''); ?>>
-										<?php
-										echo esc_attr($match->away);
+HTML;
 
-										if (strlen($competition) == 0) {
-										?>
-											<span class="statsfc_competition">
-												<abbr title="<?php echo esc_attr($match->competition); ?>"><?php echo esc_attr($match->competitionkey); ?></abbr>
-											</span>
-										<?php
-										}
-										?>
-									</td>
-								</tr>
-							<?php
-							}
-							?>
+			foreach ($matches as $match) {
+				$homeBadge		= '';
+				$awayBadge		= '';
+				$status			= esc_attr($match->status);
+				$home			= esc_attr($match->home);
+				$away			= esc_attr($match->away);
+				$homeScore		= esc_attr($match->score[0]);
+				$awayScore		= esc_attr($match->score[1]);
+				$competitionKey	= '';
+
+				if ($default_css) {
+					$homeBadge	= ' style="background-image: url(//api.statsfc.com/kit/' . esc_attr($match->homepath) . '.png);"';
+					$awayBadge	= ' style="background-image: url(//api.statsfc.com/kit/' . esc_attr($match->awaypath) . '.png);"';
+				}
+
+				if (strlen($competition) == 0) {
+					$competitionKey = '<span class="statsfc_competition"><abbr title="' . esc_attr($match->competition) . '">' . esc_attr($match->competitionkey) . '</abbr></span>';
+				}
+
+				$html .= <<< HTML
+				<tr id="statsfc_{$match->id}">
+					<td class="statsfc_team statsfc_home statsfc_badge"{$homeBadge}>
+						<span class="statsfc_status">{$status}</span>
+						{$home}
+					</td>
+					<td class="statsfc_homeScore">{$homeScore}</td>
+					<td class="statsfc_vs">-</td>
+					<td class="statsfc_awayScore">{$awayScore}</td>
+					<td class="statsfc_team statsfc_away statsfc_badge"{$awayBadge}>
+						{$away}
+						{$competitionKey}
+					</td>
+				</tr>
+HTML;
+			}
+
+			$html .= <<< HTML
 						</tbody>
 					</table>
 				</div>
 
 				<p class="statsfc_footer"><small>Powered by StatsFC.com. Fan data via CrowdScores.com</small></p>
 			</div>
-		<?php
+HTML;
 		} catch (Exception $e) {
-			echo '<p style="text-align: center;">StatsFC.com – ' . esc_attr($e->getMessage()) .'</p>' . PHP_EOL;
+			$html .= '<p style="text-align: center;">StatsFC.com – ' . esc_attr($e->getMessage()) . '</p>' . PHP_EOL;
 		}
 
-		echo $after_widget;
+		$html .= $after_widget;
+
+		if ($this->isShortcode) {
+			return $html;
+		} else {
+			echo $html;
+		}
 	}
 
 	private function _fetchData($url) {
@@ -268,7 +288,17 @@ class StatsFC_Live extends WP_Widget {
 	private function _fopenRequest($url) {
 		return file_get_contents($url);
 	}
+
+	public static function shortcode($atts) {
+		$args = shortcode_atts(self::$defaults, $atts);
+
+		$widget					= new self;
+		$widget->isShortcode	= true;
+
+		return $widget->widget(array(), $args);
+	}
 }
 
 // register StatsFC widget
 add_action('widgets_init', create_function('', 'register_widget("' . STATSFC_LIVE_ID . '");'));
+add_shortcode('statsfc-live', STATSFC_LIVE_ID . '::shortcode');
