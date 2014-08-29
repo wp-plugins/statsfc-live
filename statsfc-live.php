@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.6.2
+Version: 1.6.3
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -39,7 +39,7 @@ class StatsFC_Live extends WP_Widget {
 		'key'			=> '',
 		'competition'	=> '',
 		'team'			=> '',
-		'default_css'	=> ''
+		'default_css'	=> true
 	);
 
 	/**
@@ -163,7 +163,7 @@ class StatsFC_Live extends WP_Widget {
 		$key			= $instance['key'];
 		$competition	= $instance['competition'];
 		$team			= $instance['team'];
-		$default_css	= $instance['default_css'];
+		$default_css	= filter_var($instance['default_css'], FILTER_VALIDATE_BOOLEAN);
 
 		$html  = $before_widget;
 		$html .= $before_title . $title . $after_title;
