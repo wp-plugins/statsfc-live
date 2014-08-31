@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.6.3
+Version: 1.6.4
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -200,6 +200,8 @@ class StatsFC_Live extends WP_Widget {
 HTML;
 
 			foreach ($matches as $match) {
+				$homePath		= esc_attr($match->homepath);
+				$awayPath		= esc_attr($match->awaypath);
 				$homeBadge		= '';
 				$awayBadge		= '';
 				$status			= esc_attr($match->status);
@@ -220,14 +222,14 @@ HTML;
 
 				$html .= <<< HTML
 				<tr id="statsfc_{$match->id}">
-					<td class="statsfc_team statsfc_home statsfc_badge"{$homeBadge}>
+					<td class="statsfc_team statsfc_home statsfc_badge statsfc_badge_{$homePath}"{$homeBadge}>
 						<span class="statsfc_status">{$status}</span>
 						{$home}
 					</td>
 					<td class="statsfc_homeScore">{$homeScore}</td>
 					<td class="statsfc_vs">-</td>
 					<td class="statsfc_awayScore">{$awayScore}</td>
-					<td class="statsfc_team statsfc_away statsfc_badge"{$awayBadge}>
+					<td class="statsfc_team statsfc_away statsfc_badge statsfc_badge_{$awayPath}"{$awayBadge}>
 						{$away}
 						{$competitionKey}
 					</td>
