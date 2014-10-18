@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/docs/wordpress
 Description: StatsFC Live
-Version: 1.6.5
+Version: 1.7
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -242,6 +242,15 @@ HTML;
 					</table>
 				</div>
 HTML;
+
+			if ($customer->adSupported) {
+				wp_register_script(STATSFC_LIVE_ID . '-ad-js', plugins_url('ad.js', __FILE__), array('jquery'));
+				wp_enqueue_script(STATSFC_LIVE_ID . '-ad-js');
+
+				$html .= <<< HTML
+				<div class="statsfc_ad"></div>
+HTML;
+			}
 
 			if ($customer->attribution) {
 				$html .= <<< HTML
