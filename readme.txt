@@ -12,9 +12,9 @@ This widget will show live scores for Premier League, FA Cup or League Cup match
 
 == Description ==
 
-Add live scores for Premier League, FA Cup or League Cup matches to your WordPress website. To request an API key sign up for free at [statsfc.com](https://statsfc.com).
+Add live scores for Premier League, FA Cup or League Cup matches to your WordPress website. To request a key sign up for your free trial at [statsfc.com](https://statsfc.com).
 
-For a demo, check out [wp.statsfc.com](http://wp.statsfc.com).
+For a demo, check out [wp.statsfc.com/live/](http://wp.statsfc.com/live/).
 
 == Installation ==
 
