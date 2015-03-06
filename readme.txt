@@ -4,7 +4,7 @@ Donate link:
 Tags: widget, football, soccer, live, premier league, fa cup, league cup
 Requires at least: 3.3
 Tested up to: 4.0
-Stable tag: 1.7
+Stable tag: 1.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,8 @@ You can also use the `[statsfc-live]` shortcode, with the following options:
 **1.6.5**: Use built-in WordPress HTTP API functions
 
 **1.7**: Enabled ad-support
+
+**1.7.1**: Allow more discrete ads for ad-supported accounts
 
 == Upgrade notice ==
 
