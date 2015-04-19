@@ -243,15 +243,6 @@ HTML;
 				</div>
 HTML;
 
-			if ($customer->adSupported) {
-				wp_register_script(STATSFC_LIVE_ID . '-ad-js', plugins_url('ad.js', __FILE__), array('jquery'));
-				wp_enqueue_script(STATSFC_LIVE_ID . '-ad-js');
-
-				$html .= <<< HTML
-				<div class="statsfc_ad"></div>
-HTML;
-			}
-
 			if ($customer->attribution) {
 				$html .= <<< HTML
 				<p class="statsfc_footer"><small>Powered by StatsFC.com. Fan data via CrowdScores.com</small></p>
