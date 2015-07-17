@@ -1,19 +1,25 @@
-.statsfc_live table {					display: table; width: 100%; border-collapse: collapse; }
-.statsfc_live th,
-.statsfc_live td {						text-align: left; padding: 2px 5px; }
-.statsfc_live thead th {				text-transform: uppercase; font-size: small; background-color: silver; }
-.statsfc_live .statsfc_incident td {	font-size: small; border: none; color: #666; }
-.statsfc_live .statsfc_team {			width: 50%; }
-.statsfc_live .statsfc_home {			text-align: right; }
-.statsfc_live .statsfc_homeScore,
-.statsfc_live .statsfc_vs,
-.statsfc_live .statsfc_awayScore {		text-align: center; }
-.statsfc_live .statsfc_highlight {		font-weight: bold; }
-.statsfc_live span {					color: silver; }
-.statsfc_live .statsfc_status {			font-weight: normal; float: left; }
-.statsfc_live .statsfc_competition {	font-weight: normal; float: right; }
-.statsfc_live .statsfc_footer {			display: block !important; text-align: right; }
+div.sfc_live table {            display: table; width: 100%; border-collapse: collapse; }
+div.sfc_live th,
+div.sfc_live td {               text-align: left; padding: 2px 5px; }
+div.sfc_live .sfc_incident td { font-size: small; border: none; color: #666; }
+div.sfc_live thead th {         text-transform: uppercase; font-size: small; background-color: silver; }
+div.sfc_live .sfc_team {        width: 50%; }
+div.sfc_live .sfc_home {        text-align: right; }
+div.sfc_live .sfc_homeScore,
+div.sfc_live .sfc_vs,
+div.sfc_live .sfc_awayScore {   text-align: center; }
+div.sfc_live .sfc_highlight {   font-weight: bold; }
+div.sfc_live span {             color: silver; }
+div.sfc_live .sfc_status {      font-weight: normal; float: left; }
+div.sfc_live .sfc_competition { font-weight: normal; float: right; }
+div.sfc_live div.sfc_ad {       display: block !important; text-align: center; margin-top: 10px; }
+div.sfc_live div.sfc_footer {   display: block !important; text-align: right; }
 
-.statsfc_live .statsfc_badge {			background-repeat: no-repeat; background-size: 20px 20px; line-height: 25px; }
-.statsfc_live .statsfc_home {			background-position: center right; padding-right: 25px !important; }
-.statsfc_live .statsfc_away {			background-position: center left; padding-left: 25px !important; }
+div.sfc_live td.sfc_badge {          background-repeat: no-repeat; background-size: 20px 20px; line-height: 25px; }
+div.sfc_live td.sfc_badge.sfc_home { background-position: center right; padding-right: 25px !important; }
+div.sfc_live td.sfc_badge.sfc_away { background-position: center left; padding-left: 25px !important; }
+
+div.sfc_live .sfc_incident {      line-height: 16px; }
+div.sfc_live .sfc_home.sfc_goal { background-repeat: no-repeat; background-position: center right; padding-right: 25px; background-size: 24px 16px; }
+div.sfc_live .sfc_away.sfc_goal { background-repeat: no-repeat; background-position: center left; padding-left: 25px; background-size: 24px 16px; }
+div.sfc_live .sfc_goal {          background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAQAAAD+3TOXAAACYklEQVRIx+2WS0hUcRTGj0LjFMGEEkkLo1o5PpKCJDOcsEBoo0Rboc2g7VxECwehh4sSi5jBQiURcZwcChI3iRVSUWSbIiJM8xFkGTnjg6CH59fijtP/LufOtAj8/pt7zuL74Dy+c0U28P8gV3zSKGEJS6P4JDez5MXHg+UzwvrbzfmZY0Epzgx5TmGgI7ZIFWK8Nl5zM1YSkJx06T01g6/4zpCeo5ptCEIB13jLqI7wiNpB8aRD766JfmSB2/oJgEnaOKFzWJhnWO9TFxW3Y/6y5gliDOoyfxHSteT3b9rwIgGH9C5vU7yPdo1jokO/GlEvgixJkSOB7NAWhJPY0auTRjRqNf2Gs7mfE4Ry1mwCXTpsRO/YhCBzTvbCJ2rNzKpBeE/zyeOKWrkVunQngqj4UhfwWxPvIswUPwC4ru7EHhziIY+5pE94Rh4uPP7UBQYsqnpGtFuvarc2qLlqmwnpEgAR6inrT5l/R3gPwgEWEwM5xWHbLhewkijbMgOUpi5Q5B+iQseN+kdsAnXJ/Dy3KHFQIt+YjmnMEIiz1+ZG63hDu2510OTcy7MfGFdzRFsMgafJ7APOzjqy78rQZ4bUVOhRP610EKGHYMIyvhCmOuTMK7yd8XHeJ+lfEFRzIyL6iztUcCouXoduVNj8nNN6gZf8ZJ6LNtODdj2CIGQ3p2HXVdHtCC4OUqvTNvpVjlrdSMeuRcQjUaupWQRtAk3r9J60T6YEJCYIbu7yjSUWmCDKLiQmGTiZiaMvwayZSkKE6aOTVs5M78/Y0U/uRb5vX0Npf0l/cYM7478tG/iX+AOoXZD4g41IuAAAAABJRU5ErkJggg==); }

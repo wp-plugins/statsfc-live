@@ -1,18 +1,18 @@
 === StatsFC Live ===
 Contributors: willjw
 Donate link:
-Tags: widget, football, soccer, live, premier league, fa cup, league cup
+Tags: widget, football, soccer, fixtures, scores, live, premier league, fa cup, league cup
 Requires at least: 3.3
-Tested up to: 4.0
-Stable tag: 1.7.1
+Tested up to: 4.2.2
+Stable tag: 1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This widget will show live scores for Premier League, FA Cup or League Cup matches on your website.
+This widget will display live football scores on your website, for a chosen competition or team.
 
 == Description ==
 
-Add live scores for Premier League, FA Cup or League Cup matches to your WordPress website. To request a key sign up for your free trial at [statsfc.com](https://statsfc.com).
+Add live football scores to your WordPress website. To request a key sign up for your free trial at [statsfc.com](https://statsfc.com/sign-up).
 
 For a demo, check out [wp.statsfc.com/live/](http://wp.statsfc.com/live/).
 
@@ -28,6 +28,10 @@ You can also use the `[statsfc-live]` shortcode, with the following options:
 - `key` (required): Your StatsFC key
 - `competition` (required*): Competition key, e.g., `EPL`
 - `team` (required*): Team name, e.g., `Liverpool`
+- `highlight` (optional): The name of the team you want to highlight, e.g., `Liverpool`
+- `upcoming` (optional): Show fixtures scheduled to start in the next hour, `true` or `false`
+- `goals` (optional): Show goal scorers, `true` or `false`
+- `show_badges` (optional): Display team badges, `true` or `false`
 - `default_css` (optional): Use the default widget styles, `true` or `false`
 
 *Only one of `competition` or `team` is required.
@@ -81,6 +85,8 @@ You can also use the `[statsfc-live]` shortcode, with the following options:
 **1.7**: Enabled ad-support
 
 **1.7.1**: Allow more discrete ads for ad-supported accounts
+
+**1.8**: Added `highlight`, `upcoming`, `goals` and `show_badges` options
 
 == Upgrade notice ==
 
