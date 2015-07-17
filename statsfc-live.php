@@ -91,55 +91,55 @@ class StatsFC_Live extends WP_Widget
         ?>
         <p>
             <label>
-                Title
+                <?php _e('Title', STATSFC_LIVE_ID); ?>
                 <input class="widefat" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>">
             </label>
         </p>
         <p>
             <label>
-                Key
+                <?php _e('Key', STATSFC_LIVE_ID); ?>
                 <input class="widefat" name="<?php echo $this->get_field_name('key'); ?>" type="text" value="<?php echo esc_attr($key); ?>">
             </label>
         </p>
         <p>
             <label>
-                Competition
+                <?php _e('Competition', STATSFC_LIVE_ID); ?>
                 <input class="widefat" name="<?php echo $this->get_field_name('team'); ?>" type="text" value="<?php echo esc_attr($team); ?>" placeholder="e.g., EPL, CHP, FAC">
             </label>
         </p>
         <p>
             <label>
-                Team
+                <?php _e('Team', STATSFC_LIVE_ID); ?>
                 <input class="widefat" name="<?php echo $this->get_field_name('team'); ?>" type="text" value="<?php echo esc_attr($team); ?>" placeholder="e.g., Liverpool, Manchester City">
             </label>
         </p>
         <p>
             <label>
-                Highlight team
+                <?php _e('Highlight team', STATSFC_LIVE_ID); ?>
                 <input class="widefat" name="<?php echo $this->get_field_name('highlight'); ?>" type="text" value="<?php echo esc_attr($highlight); ?>" placeholder="e.g., Liverpool, Manchester City">
             </label>
         </p>
         <p>
             <label>
-                Show upcoming fixtures?
+                <?php _e('Show upcoming fixtures?', STATSFC_LIVE_ID); ?>
                 <input type="checkbox" name="<?php echo $this->get_field_name('upcoming'); ?>"<?php echo ($upcoming == 'on' ? ' checked' : ''); ?>>
             </label>
         </p>
         <p>
             <label>
-                Show goal scorers?
+                <?php _e('Show goal scorers?', STATSFC_LIVE_ID); ?>
                 <input type="checkbox" name="<?php echo $this->get_field_name('goals'); ?>"<?php echo ($goals == 'on' ? ' checked' : ''); ?>>
             </label>
         </p>
         <p>
             <label>
-                Show badges?
+                <?php _e('Show badges?', STATSFC_LIVE_ID); ?>
                 <input type="checkbox" name="<?php echo $this->get_field_name('show_badges'); ?>"<?php echo ($show_badges == 'on' ? ' checked' : ''); ?>>
             </label>
         </p>
         <p>
             <label>
-                Use default CSS?
+                <?php _e('Use default styles?', STATSFC_LIVE_ID); ?>
                 <input type="checkbox" name="<?php echo $this->get_field_name('default_css'); ?>"<?php echo ($default_css == 'on' ? ' checked' : ''); ?>>
             </label>
         </p>
