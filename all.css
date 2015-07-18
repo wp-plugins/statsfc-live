@@ -12,7 +12,6 @@ div.sfc_live .sfc_highlight {   font-weight: bold; }
 div.sfc_live span {             color: silver; }
 div.sfc_live .sfc_status {      font-weight: normal; float: left; }
 div.sfc_live .sfc_competition { font-weight: normal; float: right; }
-div.sfc_live div.sfc_ad {       display: block !important; text-align: center; margin-top: 10px; }
 div.sfc_live div.sfc_footer {   display: block !important; text-align: right; }
 
 div.sfc_live td.sfc_badge {          background-repeat: no-repeat; background-size: 20px 20px; line-height: 25px; }
