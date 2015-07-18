@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/widgets/live-games
 Description: StatsFC Live
-Version: 1.8
+Version: 1.8.1
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -27,7 +27,7 @@ License: GPL2
 
 define('STATSFC_LIVE_ID',      'StatsFC_Live');
 define('STATSFC_LIVE_NAME',    'StatsFC Live');
-define('STATSFC_LIVE_VERSION', '1.8');
+define('STATSFC_LIVE_VERSION', '1.8.1');
 
 /**
  * Adds StatsFC widget.
@@ -218,26 +218,24 @@ class StatsFC_Live extends WP_Widget
         // Enqueue widget JS
         $object = 'statsfc_live_' . $unique_id;
 
-        $GLOBALS['statsfc_live_init']  = '<script>' . PHP_EOL;
-        $GLOBALS['statsfc_live_init'] .= 'var ' . $object . ' = new StatsFC_Live(' . json_encode($key) . ');' . PHP_EOL;
-        $GLOBALS['statsfc_live_init'] .= $object . '.referer = ' . json_encode($referer) . ';' . PHP_EOL;
+        $script  = '<script>' . PHP_EOL;
+        $script .= 'var ' . $object . ' = new StatsFC_Live(' . json_encode($key) . ');' . PHP_EOL;
+        $script .= $object . '.referer = ' . json_encode($referer) . ';' . PHP_EOL;
 
         foreach (static::$whitelist as $parameter) {
             if (! array_key_exists($parameter, $options)) {
                 continue;
             }
 
-            $GLOBALS['statsfc_live_init'] .= $object . '.' . $parameter . ' = ' . json_encode($options[$parameter]) . ';' . PHP_EOL;
+            $script .= $object . '.' . $parameter . ' = ' . json_encode($options[$parameter]) . ';' . PHP_EOL;
         }
 
-        $GLOBALS['statsfc_live_init'] .= $object . '.display("statsfc-live-' . $unique_id . '");' . PHP_EOL;
-        $GLOBALS['statsfc_live_init'] .= '</script>';
+        $script .= $object . '.display("statsfc-live-' . $unique_id . '");' . PHP_EOL;
+        $script .= '</script>';
 
-        add_action('wp_print_footer_scripts', function()
+        add_action('wp_print_footer_scripts', function() use ($script)
         {
-            global $statsfc_live_init;
-
-            echo $statsfc_live_init;
+            echo $script;
         });
 
         if ($this->isShortcode) {

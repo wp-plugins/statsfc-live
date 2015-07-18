@@ -4,7 +4,7 @@ Donate link:
 Tags: widget, football, soccer, fixtures, scores, live, premier league, fa cup, league cup
 Requires at least: 3.3
 Tested up to: 4.2.2
-Stable tag: 1.8
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,8 @@ You can also use the `[statsfc-live]` shortcode, with the following options:
 **1.7.1**: Allow more discrete ads for ad-supported accounts
 
 **1.8**: Added `highlight`, `upcoming`, `goals` and `show_badges` options
+
+**1.8.1**: Fixed bug with multiple widgets on one page
 
 == Upgrade notice ==
 
