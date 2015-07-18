@@ -33,8 +33,8 @@ function StatsFC_Live(key) {
         var domain      = this.domain;
         var competition = this.competition;
         var highlight   = this.highlight;
-        var goals       = this.goals;
-        var showBadges  = this.showBadges;
+        var goals       = (this.goals === true || this.goals === 'true');
+        var showBadges  = (this.showBadges === true || this.showBadges === 'true');
 
         $j.getJSON(
             domain + '/crowdscores/live.php?callback=?',
