@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/widgets/live-games
 Description: StatsFC Live
-Version: 1.8.2
+Version: 1.8.3
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -27,7 +27,7 @@ License: GPL2
 
 define('STATSFC_LIVE_ID',      'StatsFC_Live');
 define('STATSFC_LIVE_NAME',    'StatsFC Live');
-define('STATSFC_LIVE_VERSION', '1.8.2');
+define('STATSFC_LIVE_VERSION', '1.8.3');
 
 /**
  * Adds StatsFC widget.

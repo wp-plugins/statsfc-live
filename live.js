@@ -30,6 +30,8 @@ function StatsFC_Live(key) {
         var $container = $j('<div>').addClass('sfc_live');
 
         // Store globals variables here so we can use it later.
+        var key         = this.key;
+        var referer     = this.referer;
         var domain      = this.domain;
         var competition = this.competition;
         var highlight   = this.highlight;
@@ -157,12 +159,19 @@ function StatsFC_Live(key) {
         $j('#' + placeholder).append($container);
 
         setInterval(function() {
-            $j.getJSON(domain + '/crowdscores/live-updates.php?callback=?', function(data) {
-                $j.each(data, function(match_id, score) {
-                    $j('#sfc_' + match_id + ' .sfc_homeScore').text(score[0]);
-                    $j('#sfc_' + match_id + ' .sfc_awayScore').text(score[1]);
-                    $j('#sfc_' + match_id + ' .sfc_status').text(score[2]);
-                });
+            $j.getJSON(
+                domain + '/crowdscores/live-updates.php?callback=?',
+                {
+                    key:    key,
+                    domain: referer
+                },
+                function(data) {
+                    $j.each(data, function(match_id, score) {
+                        $j('#sfc_' + match_id + ' .sfc_homeScore').text(score[0]);
+                        $j('#sfc_' + match_id + ' .sfc_awayScore').text(score[1]);
+                        $j('#sfc_' + match_id + ' .sfc_status').text(score[2]);
+                    }
+                );
             });
         }, 60000);
     };

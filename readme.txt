@@ -4,7 +4,7 @@ Donate link:
 Tags: widget, football, soccer, fixtures, scores, live, premier league, fa cup, league cup
 Requires at least: 3.3
 Tested up to: 4.2.2
-Stable tag: 1.8.2
+Stable tag: 1.8.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,8 @@ You can also use the `[statsfc-live]` shortcode, with the following options:
 **1.8.1**: Fixed bug with multiple widgets on one page
 
 **1.8.2**: Fixed bug with boolean options
+
+**1.8.3**: Authenticate requests for the automatic live score updates
 
 == Upgrade notice ==
 
