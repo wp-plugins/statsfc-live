@@ -3,7 +3,7 @@
 Plugin Name: StatsFC Live
 Plugin URI: https://statsfc.com/widgets/live-games
 Description: StatsFC Live
-Version: 1.8.3
+Version: 1.8.4
 Author: Will Woodward
 Author URI: http://willjw.co.uk
 License: GPL2
@@ -27,7 +27,7 @@ License: GPL2
 
 define('STATSFC_LIVE_ID',      'StatsFC_Live');
 define('STATSFC_LIVE_NAME',    'StatsFC Live');
-define('STATSFC_LIVE_VERSION', '1.8.3');
+define('STATSFC_LIVE_VERSION', '1.8.4');
 
 /**
  * Adds StatsFC widget.
@@ -104,7 +104,7 @@ class StatsFC_Live extends WP_Widget
         <p>
             <label>
                 <?php _e('Competition', STATSFC_LIVE_ID); ?>
-                <input class="widefat" name="<?php echo $this->get_field_name('team'); ?>" type="text" value="<?php echo esc_attr($team); ?>" placeholder="e.g., EPL, CHP, FAC">
+                <input class="widefat" name="<?php echo $this->get_field_name('competition'); ?>" type="text" value="<?php echo esc_attr($competition); ?>" placeholder="e.g., EPL, CHP, FAC">
             </label>
         </p>
         <p>
